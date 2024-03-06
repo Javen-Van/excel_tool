@@ -10,7 +10,8 @@ class InProcessGreatReportStrategyImpl(ReportStrategy):
                Constant.AUTH, Constant.OWNER, Constant.MANAGER, Constant.REGISTER_DATE, Constant.LEADER, Constant.GROUP]
 
     CATEGORY_LIST = ['并购贷款', '并购银团', '固定资产贷款', '固定资产贷款+综合授信', '城市更新贷款', '园区建设贷款',
-                     '定增配资', '股票质押融资', '可转债配资', '可转债投资', '战略配售', '结构化融资', '开发贷']
+                     '定增配资', '股票质押融资', '可转债配资', '可转债投资', '战略配售', '结构化融资', '开发贷',
+                     '法人按揭', '经营性物业贷', '隐债置换']
 
     def create_report(self, data: DataFrame, match: dict):
         LogUtil.info("在审重大项目报表开始制作")
