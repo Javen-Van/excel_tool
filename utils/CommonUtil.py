@@ -1,4 +1,6 @@
 import datetime
+import math
+
 from pandas import DataFrame
 import pandas as pd
 from utils import LogUtil, Constant
@@ -125,7 +127,7 @@ def match_and_sort(data: DataFrame, money_2022: dict, money_2023: dict, sort_by_
         if category in special_category_list or '固定资产' in category or '并购贷款' in category:
             data.loc[index, Constant.FINAL_ADD_MONEY] = money_cur
             money_last = 0
-            note_list = ['新增专项授信'] if pd.isna(note) and isinstance(note, str) else [note, '新增专项授信']
+            note_list = [note, '新增专项授信'] if pd.notnull(note) and isinstance(note, str) else ['新增专项授信']
             data.loc[index, Constant.GROUP] = '，'.join(note_list)
         if isinstance(money_cur, int) and isinstance(money_last, int):
             diff = money_cur - money_last
@@ -133,7 +135,8 @@ def match_and_sort(data: DataFrame, money_2022: dict, money_2023: dict, sort_by_
             if isinstance(bank_name, str) and diff > 0:
                 cur = bank_add_sum.get(bank_name, 0)
                 bank_add_sum[bank_name] = cur + diff
-    result = data[data[Constant.FINAL_ADD_MONEY].apply(lambda x: pd.notna(x) and isinstance(x, int) and x > 0)]
+    result = data[data[Constant.FINAL_ADD_MONEY].apply(lambda x: pd.notna(x) and isinstance(x, int) and x > 0) |
+                  data[Constant.CATEGORY].apply(lambda x: x in special_category_list or '固定资产' in x or '并购贷款' in x)]
     if sort_by_bank:
         result.sort_values(by=Constant.BANK_NAME, ascending=False, key=lambda x: x.map(bank_add_sum), inplace=True)
     return result
