@@ -1,4 +1,3 @@
-import pandas, numpy
 from service.ReportFactory import ReportFactory
 from service.impl import *
 from utils import CommonUtil, LogUtil

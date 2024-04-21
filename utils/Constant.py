@@ -25,6 +25,7 @@ TEMP = 'temp'
 REAPPLY = '复审'
 FINAL_ADD_MONEY = '新增额度'
 OWNER_SIMPLE = '性质'
+INDUSTRY = '行业'
 
 IN = "内"
 OUT = "外"

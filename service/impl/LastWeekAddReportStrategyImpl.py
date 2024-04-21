@@ -18,7 +18,7 @@ def sort(data: DataFrame):
 class LastWeekAddReportStrategyImpl(ReportStrategy):
     COLUMNS = [Constant.NUMBER, Constant.BANK_NAME, Constant.CUSTOMER_NAME, Constant.APPLY_MONEY, Constant.CATEGORY,
                Constant.AUTH, Constant.OWNER, Constant.MANAGER, Constant.MEETING_DATE, Constant.REAPPLY,
-               Constant.AGREE_MONEY, Constant.GROUP]
+               Constant.AGREE_MONEY, Constant.GROUP, Constant.INDUSTRY]
 
     def create_report(self, data: DataFrame, match: dict) -> DataFrame:
         LogUtil.info("上周新增额度审批明细开始执行")

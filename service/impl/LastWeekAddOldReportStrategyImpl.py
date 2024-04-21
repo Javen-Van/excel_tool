@@ -32,8 +32,7 @@ class LastWeekAddOldReportStrategyImpl(ReportStrategy):
     COLUMNS = [Constant.NUMBER, Constant.BANK_NAME, Constant.CUSTOMER_NAME,
                Constant.APPLY_MONEY, Constant.CATEGORY, Constant.AUTH,
                Constant.OWNER, Constant.MANAGER, Constant.MEETING_DATE, Constant.REAPPLY, Constant.AGREE_MONEY,
-               Constant.FINAL_ADD_MONEY,
-               Constant.GROUP]
+               Constant.FINAL_ADD_MONEY, Constant.GROUP, Constant.INDUSTRY]
     MAX_VALUE = 100000000000
 
     def create_report(self, data: DataFrame, match: dict) -> DataFrame:
