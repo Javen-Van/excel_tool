@@ -11,7 +11,7 @@ class LastWeekReportStrategyImpl(ReportStrategy):
     MAX_VALUE = 100000000000
 
     def create_report(self, data: DataFrame, match: dict) -> DataFrame:
-        LogUtil.info("上周审批项目明细开始执行")
+        LogUtil.info("4.1上周审批项目明细, start")
         first_filter = CommonUtil.last_week_filter(data)
         first_filter[Constant.TEMP] = None
         for index, row in first_filter.iterrows():

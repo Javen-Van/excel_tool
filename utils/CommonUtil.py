@@ -39,7 +39,7 @@ def in_process_filter(data: DataFrame) -> DataFrame:
 def last_week_filter(data: DataFrame) -> DataFrame:
     today = datetime.date.today()
     # TODO: 待更正
-    # today = datetime.date(2024, 1, 19)
+    # today = datetime.date(2024, 5, 24)
     start_of_week = today - datetime.timedelta(days=today.weekday())
     end_of_week = today + datetime.timedelta(days=6 - today.weekday())
     final_index = []

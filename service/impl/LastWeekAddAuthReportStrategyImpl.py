@@ -10,7 +10,7 @@ class LastWeekAddAuthReportStrategyImpl(ReportStrategy):
                Constant.MEETING_DATE, Constant.REAPPLY, Constant.AGREE_MONEY, Constant.GROUP]
 
     def create_report(self, data: DataFrame, match_table: dict) -> DataFrame:
-        LogUtil.info("上周新增额度审批明细(分权限)开始执行")
+        LogUtil.info("5.1公司部-本周新增额度-企业新客户, start")
         first_filter = CommonUtil.last_week_add_blank_filter(data)
         first_filter[Constant.NUMBER] = None
         if len(first_filter) == 0:

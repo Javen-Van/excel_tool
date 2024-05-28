@@ -3,7 +3,9 @@ from service.impl import *
 from utils import CommonUtil, LogUtil
 import tkinter as tk
 import tkinter.messagebox
+# import pandas as pd
 
+# pd.options.mode.chained_assignment = None
 
 def create_window():
     window = tk.Tk()

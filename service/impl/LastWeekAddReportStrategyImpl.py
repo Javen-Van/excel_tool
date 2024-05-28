@@ -21,11 +21,13 @@ class LastWeekAddReportStrategyImpl(ReportStrategy):
                Constant.AGREE_MONEY, Constant.GROUP, Constant.INDUSTRY]
 
     def create_report(self, data: DataFrame, match: dict) -> DataFrame:
-        LogUtil.info("上周新增额度审批明细开始执行")
+        LogUtil.info("4.2上周新增额度-新客户, start")
         first_filter = CommonUtil.last_week_add_blank_filter(data)
         # 包含 新
-        first_filter = first_filter[first_filter[Constant.NEW].notna()]
-        second_filter = first_filter[first_filter[Constant.NEW].str.contains(Constant.NEW)]
+        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o :
+                                                                     pd.notna(o) and
+                                                                     isinstance(o, str) and
+                                                                     Constant.NEW in o)]
         second_filter[Constant.MEETING_DATE] = pd.to_datetime(second_filter[Constant.MEETING_DATE]).dt.strftime(
             '%Y/%m/%d')
 

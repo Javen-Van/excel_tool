@@ -8,7 +8,7 @@ class InProcessOldReportStrategyImpl(ReportStrategy):
                Constant.AUTH, Constant.OWNER, Constant.MANAGER, Constant.REGISTER_DATE, Constant.LEADER, Constant.GROUP]
 
     def create_report(self, data: DataFrame, match: dict) -> DataFrame:
-        LogUtil.info("在审存量客户报表开始制作")
+        LogUtil.info("1.1分行在审项目表-存量客户, start")
         first_filter = CommonUtil.in_process_filter(data)  # 初筛
         second_filter = first_filter.loc[first_filter[Constant.NEW].apply(lambda x: Constant.NEW not in str(x))]
         second_filter.sort_values(by=Constant.REGISTER_DATE, inplace=True)  # 按登记日期
