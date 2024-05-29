@@ -1,11 +1,13 @@
+# import pandas, numpy
 from service.ReportFactory import ReportFactory
 from service.impl import *
 from utils import CommonUtil, LogUtil
 import tkinter as tk
 import tkinter.messagebox
-# import pandas as pd
+import pandas as pd
 
-# pd.options.mode.chained_assignment = None
+pd.options.mode.chained_assignment = None
+
 
 def create_window():
     window = tk.Tk()
