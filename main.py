@@ -1,4 +1,6 @@
 # import pandas, numpy
+import datetime
+
 from service.ReportFactory import ReportFactory
 from service.impl import *
 from utils import CommonUtil, LogUtil
@@ -16,6 +18,8 @@ def create_window():
     tk.Label(window, text='基础台账: ').grid(row=0, column=0)
     tk.Label(window, text='匹配文件: ').grid(row=1, column=0)
     tk.Label(window, text='保存目录: ').grid(row=2, column=0)
+    tk.Label(window, text='开始日期: ').grid(row=3, column=0)
+    tk.Label(window, text='结束日期: ').grid(row=4, column=0)
 
     entry1 = tk.Entry(window, width=40)
     entry1.grid(row=0, column=1)
@@ -23,14 +27,21 @@ def create_window():
     entry2.grid(row=1, column=1)
     entry3 = tk.Entry(window, width=40)
     entry3.grid(row=2, column=1)
+    entry4 = tk.Entry(window, width=40)
+    entry4.grid(row=3, column=1)
+    entry5 = tk.Entry(window, width=40)
+    entry5.grid(row=4, column=1)
 
     def show_function():
         file_dir = entry1.get()
         match_dir = entry2.get()
         save_dir = entry3.get()
+        start_date = datetime.datetime.strptime(entry4.get(), '%Y/%m/%d').date()
+        end_date = datetime.datetime.strptime(entry5.get(), '%Y/%m/%d').date()
+
         error = False
         try:
-            start_task(file_dir, match_dir, save_dir)
+            start_task(file_dir, match_dir, save_dir, start_date, end_date)
         except:
             error = True
         if error:
@@ -39,11 +50,11 @@ def create_window():
             tkinter.messagebox.showinfo("提示", "解析成功，请前往桌面result文件夹查看")
 
     start_button = tk.Button(window, text="开始解析", width=10, height=2, command=show_function)
-    start_button.grid(row=4, column=1)
+    start_button.grid(row=6, column=1)
     window.mainloop()
 
 
-def start_task(file_dir: str, match_dir: str, save_dir: str):
+def start_task(file_dir: str, match_dir: str, save_dir: str, start_date: datetime.date, end_date: datetime.date):
     LogUtil.info('基础台账文件: {0}', file_dir)
     LogUtil.info('匹配文件: {0}', match_dir)
     LogUtil.info('保存目录: {0}', save_dir)
@@ -63,7 +74,7 @@ def start_task(file_dir: str, match_dir: str, save_dir: str):
     }
     for name, strategy in strategy_list.items():
         factory = ReportFactory(strategy)
-        factory.execute(data, match_table, save_dir + '/' + name)
+        factory.execute(data, match_table, save_dir + '/' + name, start_date, end_date)
 
 
 # Press the green button in the gutter to run the script.

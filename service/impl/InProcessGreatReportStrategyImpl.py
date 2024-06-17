@@ -1,3 +1,5 @@
+import datetime
+
 from service.ReportStrategy import ReportStrategy
 from pandas import DataFrame
 from utils import *
@@ -12,7 +14,7 @@ class InProcessGreatReportStrategyImpl(ReportStrategy):
     CATEGORY_LIST = ['并购贷款', '并购银团', '固定资产贷款', '固定资产贷款+综合授信', '城市更新贷款', '园区建设贷款',
                      '定增配资', '股票质押融资', '可转债配资', '可转债投资', '战略配售', '结构化融资', '开发贷']
 
-    def create_report(self, data: DataFrame, match: dict):
+    def create_report(self, data: DataFrame, match: dict, start_date: datetime.date, end_date: datetime.date):
         LogUtil.info("2.分行在审重大项目表, start")
         first_filter = CommonUtil.in_process_filter(data)  # 初筛
         report = first_filter[first_filter[Constant.CATEGORY].apply(lambda category: category in self.CATEGORY_LIST)]

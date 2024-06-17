@@ -10,11 +10,12 @@ class LastWeekAddOld2ReportStrategyImpl(ReportStrategy):
                Constant.APPLY_MONEY, Constant.CATEGORY, Constant.AUTH, Constant.OWNER, Constant.MANAGER,
                Constant.MEETING_DATE, Constant.REAPPLY, Constant.AGREE_MONEY, Constant.FINAL_ADD_MONEY, Constant.GROUP]
 
-    def create_report(self, data: DataFrame, match: dict) -> DataFrame:
+    def create_report(self, data: DataFrame, match: dict, start_date: datetime.date,
+                      end_date: datetime.date) -> DataFrame:
         LogUtil.info("5.2公司部-本周新增额度-企业存量新增, start")
-        first_filter = CommonUtil.last_week_add_blank_filter(data)
-        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o : 
-                                                                      pd.notna(o) and 
+        first_filter = CommonUtil.last_week_add_blank_filter(data, start_date, end_date)
+        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o:
+                                                                      pd.notna(o) and
                                                                       isinstance(o, str) and
                                                                       Constant.NEW not in o and
                                                                       Constant.CHANGE not in o)]
@@ -45,7 +46,8 @@ class LastWeekAddOld2ReportStrategyImpl(ReportStrategy):
             if isinstance(money_cur, int) and isinstance(money_last, int):
                 diff = money_cur - money_last
                 second_filter.loc[index, Constant.FINAL_ADD_MONEY] = diff
-        second_filter = second_filter[second_filter[Constant.FINAL_ADD_MONEY].apply(lambda x : pd.notna(x) and isinstance(x,int) and x>0)]
+        second_filter = second_filter[
+            second_filter[Constant.FINAL_ADD_MONEY].apply(lambda x: pd.notna(x) and isinstance(x, int) and x > 0)]
         # 权限为内
         final_report = CommonUtil.auth_in_out(second_filter, False, Constant.MEETING_DATE)
         return final_report.loc[:, self.COLUMNS]

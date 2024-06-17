@@ -1,3 +1,5 @@
+import datetime
+
 from service.ReportStrategy import ReportStrategy
 from pandas import DataFrame
 from utils import *
@@ -20,14 +22,15 @@ class LastWeekAddReportStrategyImpl(ReportStrategy):
                Constant.AUTH, Constant.OWNER, Constant.MANAGER, Constant.MEETING_DATE, Constant.REAPPLY,
                Constant.AGREE_MONEY, Constant.GROUP, Constant.INDUSTRY]
 
-    def create_report(self, data: DataFrame, match: dict) -> DataFrame:
+    def create_report(self, data: DataFrame, match: dict, start_date: datetime.date,
+                      end_date: datetime.date) -> DataFrame:
         LogUtil.info("4.2上周新增额度-新客户, start")
-        first_filter = CommonUtil.last_week_add_blank_filter(data)
+        first_filter = CommonUtil.last_week_add_blank_filter(data, start_date, end_date)
         # 包含 新
-        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o :
-                                                                     pd.notna(o) and
-                                                                     isinstance(o, str) and
-                                                                     Constant.NEW in o)]
+        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o:
+                                                                      pd.notna(o) and
+                                                                      isinstance(o, str) and
+                                                                      Constant.NEW in o)]
         second_filter[Constant.MEETING_DATE] = pd.to_datetime(second_filter[Constant.MEETING_DATE]).dt.strftime(
             '%Y/%m/%d')
 

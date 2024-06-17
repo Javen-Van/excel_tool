@@ -35,25 +35,28 @@ class LastWeekAddOldReportStrategyImpl(ReportStrategy):
                Constant.FINAL_ADD_MONEY, Constant.GROUP, Constant.INDUSTRY]
     MAX_VALUE = 100000000000
 
-    def create_report(self, data: DataFrame, match: dict) -> DataFrame:
+    def create_report(self, data: DataFrame, match: dict, start_date: datetime.date,
+                      end_date: datetime.date) -> DataFrame:
         LogUtil.info("4.2上周新增客户-存量新增, start")
-        first_filter = CommonUtil.last_week_add_blank_filter(data)
-        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o : 
-                                                                      pd.notna(o) and 
-                                                                      isinstance(o, str) and 
-                                                                      Constant.NEW not in o and 
+        first_filter = CommonUtil.last_week_add_blank_filter(data, start_date, end_date)
+        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o:
+                                                                      pd.notna(o) and
+                                                                      isinstance(o, str) and
+                                                                      Constant.NEW not in o and
                                                                       Constant.CHANGE not in o)]
         second_filter[Constant.FINAL_ADD_MONEY] = None
         money_2022, money_2023 = dict(), dict()
         # 2022年数据
         data_2022 = match.get(Constant.LAST_LAST_YEAR_SHEET)
-        data_2022 = data_2022[data_2022[Constant.MEETING_DATE].apply(lambda t: pd.notna(t) and isinstance(t, datetime.datetime))]
+        data_2022 = data_2022[
+            data_2022[Constant.MEETING_DATE].apply(lambda t: pd.notna(t) and isinstance(t, datetime.datetime))]
         data_2022.sort_values(by=Constant.MEETING_DATE, inplace=True)
         for index, row in data_2022.iterrows():
             money_2022[row[Constant.CUSTOMER_NAME]] = row[Constant.AGREE_MONEY]
         # 2022年数据
         data_2023 = match.get(Constant.LAST_YEAR_SHEET)
-        data_2023 = data_2023[data_2023[Constant.MEETING_DATE].apply(lambda t: pd.notna(t) and isinstance(t, datetime.datetime))]
+        data_2023 = data_2023[
+            data_2023[Constant.MEETING_DATE].apply(lambda t: pd.notna(t) and isinstance(t, datetime.datetime))]
         data_2023.sort_values(by=Constant.MEETING_DATE, inplace=True)
         for index, row in data_2023.iterrows():
             money_2023[row[Constant.CUSTOMER_NAME]] = row[Constant.AGREE_MONEY]

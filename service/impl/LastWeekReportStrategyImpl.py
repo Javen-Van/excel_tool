@@ -1,3 +1,5 @@
+import datetime
+
 from service.ReportStrategy import ReportStrategy
 from pandas import DataFrame
 from utils import *
@@ -10,9 +12,9 @@ class LastWeekReportStrategyImpl(ReportStrategy):
                Constant.AGREE_MONEY, Constant.GROUP]
     MAX_VALUE = 100000000000
 
-    def create_report(self, data: DataFrame, match: dict) -> DataFrame:
+    def create_report(self, data: DataFrame, match: dict, start_date: datetime.date, end_date: datetime.date) -> DataFrame:
         LogUtil.info("4.1上周审批项目明细, start")
-        first_filter = CommonUtil.last_week_filter(data)
+        first_filter = CommonUtil.last_week_filter(data, start_date, end_date)
         first_filter[Constant.TEMP] = None
         for index, row in first_filter.iterrows():
             agree_result, auth = row[Constant.AGREE_RESULT], row[Constant.AUTH]

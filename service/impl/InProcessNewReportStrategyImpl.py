@@ -1,3 +1,5 @@
+import datetime
+
 from pandas import DataFrame
 from service.ReportStrategy import ReportStrategy
 from utils import *
@@ -8,7 +10,7 @@ class InProcessNewReportStrategyImpl(ReportStrategy):
     COLUMNS = [Constant.NUMBER, Constant.BANK_NAME, Constant.CUSTOMER_NAME, Constant.APPLY_MONEY, Constant.CATEGORY,
                Constant.AUTH, Constant.OWNER, Constant.MANAGER, Constant.REGISTER_DATE, Constant.LEADER, Constant.GROUP]
 
-    def create_report(self, data: DataFrame, match: dict) -> DataFrame:
+    def create_report(self, data: DataFrame, match: dict, start_date: datetime.date, end_date: datetime.date) -> DataFrame:
         LogUtil.info("1.2分行在审项目表-新客户, start")
         first_filter = CommonUtil.in_process_filter(data)  # 初筛
         second_filter = first_filter[first_filter[Constant.NEW].str.contains(Constant.NEW)]

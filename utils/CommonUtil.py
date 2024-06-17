@@ -36,29 +36,29 @@ def in_process_filter(data: DataFrame) -> DataFrame:
                var[Constant.REGISTER_DATE].apply(lambda time: isinstance(time, datetime.datetime))]
 
 
-def last_week_filter(data: DataFrame) -> DataFrame:
-    today = datetime.date.today()
+def last_week_filter(data: DataFrame, start_date: datetime.date, end_date: datetime.date) -> DataFrame:
+    # today = datetime.date.today()
     # TODO: 待更正
     # today = datetime.date(2024, 5, 24)
-    start_of_week = today - datetime.timedelta(days=today.weekday())
-    end_of_week = today + datetime.timedelta(days=6 - today.weekday())
+    # start_of_week = today - datetime.timedelta(days=today.weekday())
+    # end_of_week = today + datetime.timedelta(days=6 - today.weekday())
     final_index = []
     for index, row in data.iterrows():
         meeting_date = row[Constant.MEETING_DATE]
         agree_date = row[Constant.AGREE_DATE]
         # 上会日期是当周
         if (pd.notna(meeting_date) and isinstance(meeting_date, datetime.datetime) and
-                (start_of_week <= meeting_date.date() <= end_of_week)):
+                (start_date <= meeting_date.date() <= end_date)):
             final_index.append(index)
         else:
             if (pd.notna(agree_date) and isinstance(agree_date, datetime.datetime)
-                    and (start_of_week <= agree_date.date() <= end_of_week)):
+                    and (start_date <= agree_date.date() <= end_date)):
                 final_index.append(index)  # 总行批复日期在当周
     return data.loc[final_index]
 
 
-def last_week_add_blank_filter(data: DataFrame) -> DataFrame:
-    var = last_week_filter(data)
+def last_week_add_blank_filter(data: DataFrame, start_date: datetime.date, end_date: datetime.date) -> DataFrame:
+    var = last_week_filter(data, start_date, end_date)
     var = var[var[Constant.LEADER].notna() & var[Constant.CATEGORY].notna()]
     return var[var[Constant.AGREE_RESULT].apply(lambda x: pd.isna(x) or Constant.AGREE in str(x)) &
                var[Constant.CATEGORY].apply(lambda x: x not in category_list and Constant.BOND not in str(x))]

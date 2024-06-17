@@ -10,11 +10,12 @@ class GovLastWeekAddOld2ReportStrategyImpl(ReportStrategy):
                Constant.APPLY_MONEY, Constant.CATEGORY, Constant.AUTH, Constant.OWNER, Constant.MANAGER,
                Constant.MEETING_DATE, Constant.REAPPLY, Constant.AGREE_MONEY, Constant.FINAL_ADD_MONEY, Constant.GROUP]
 
-    def create_report(self, data: DataFrame, match: dict) -> DataFrame:
+    def create_report(self, data: DataFrame, match: dict, start_date: datetime.date,
+                      end_date: datetime.date) -> DataFrame:
         LogUtil.info("5.4公司部-本周新增额度-政府存量新增, start")
-        first_filter = CommonUtil.last_week_add_blank_filter(data)
-        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o :
-                                                                      pd.notna(o) and 
+        first_filter = CommonUtil.last_week_add_blank_filter(data, start_date, end_date)
+        second_filter = first_filter[first_filter[Constant.NEW].apply(lambda o:
+                                                                      pd.notna(o) and
                                                                       isinstance(o, str) and
                                                                       Constant.NEW not in o and
                                                                       Constant.CHANGE not in o)]
