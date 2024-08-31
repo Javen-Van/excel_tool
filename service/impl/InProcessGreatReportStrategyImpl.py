@@ -21,7 +21,7 @@ class InProcessGreatReportStrategyImpl(ReportStrategy):
         report = report.loc[:, self.COLUMNS]
         report.sort_values(by=Constant.REGISTER_DATE, inplace=True)  # 按登记日期
         report[Constant.REGISTER_DATE] = pd.to_datetime(report[Constant.REGISTER_DATE]).dt.strftime('%Y/%m/%d')
-        report.sort_values(by=Constant.LEADER, key=lambda s: s.map(leader_dict), kind='mergesort', inplace=True)
+        report.sort_values(by=Constant.LEADER, kind='mergesort', inplace=True)
         size = len(report)
         report.insert(0, Constant.NUMBER, range(1, size + 1))
         report.rename(columns={Constant.BANK_NAME: Constant.BANK_NAME_SIMPLE,

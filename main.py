@@ -61,8 +61,8 @@ def start_task(file_dir: str, match_dir: str, save_dir: str, start_date: datetim
     data = CommonUtil.read_excel(file_dir)
     match_table = CommonUtil.read_match_excel(match_dir)
     strategy_list = {
-        '1.2分行在审项目表-新客户': InProcessNewReportStrategyImpl(),
         '1.1分行在审项目表-存量客户': InProcessOldReportStrategyImpl(),
+        '1.2分行在审项目表-新客户': InProcessNewReportStrategyImpl(),
         '2.分行在审重大项目表': InProcessGreatReportStrategyImpl(),
         '4.1上周审批项目明细': LastWeekReportStrategyImpl(),
         '4.2上周新增额度-新客户': LastWeekAddReportStrategyImpl(),

@@ -70,17 +70,15 @@ def auth_in_out(data: DataFrame, sort_by_leader: bool, column_name: str) -> Data
     in_report = data[data[Constant.AUTH] == Constant.IN]
     # 按组长排序
     if sort_by_leader:
-        in_report.sort_values(by=Constant.LEADER, key=lambda s: s.map(leader_dict), kind='mergesort', inplace=True)
+        in_report.sort_values(by=Constant.LEADER, kind='mergesort', inplace=True)
     size = len(in_report)
-    # in_report.insert(0, Constant.NUMBER, range(1, size + 1))
     in_report[Constant.NUMBER] = range(1, size + 1)
     in_report[column_name] = pd.to_datetime(in_report[column_name]).dt.strftime('%Y/%m/%d')
 
     # 权限为外
     out_report = data[data[Constant.AUTH] == Constant.OUT]
     if sort_by_leader:
-        out_report.sort_values(by=Constant.LEADER, key=lambda s: s.map(leader_dict), kind='mergesort', inplace=True)
-    # out_report.insert(0, Constant.NUMBER, range(size + 1, len(out_report) + size + 1))
+        out_report.sort_values(by=Constant.LEADER, kind='mergesort', inplace=True)
     out_report[Constant.NUMBER] = range(size + 1, len(out_report) + size + 1)
     out_report[column_name] = pd.to_datetime(out_report[column_name]).dt.strftime('%Y/%m/%d')
 
